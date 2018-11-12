@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>homework</title>
+</head>
+<body>
+
+
+    <form action = "/api" method = "POST" id="form_hw">
+        <p>Discipline <input type = "text" name = "hw_discipline_name" value="{{homework.get('hw_discipline_name')}}" /></p>
+        <p>Homework date <input type = "text" name = "hw_date" value="{{homework.get('hw_date')}}"/></p>
+        <p>Description <input type = "text" name = "hw_description" value="{{homework.get('hw_description')}}" /></p>
+        <p name="g">ggj</p>
+     </form>
+
+    <button type="submit" form="form_hw" name="action" value="hw_update">Submit</button>
+
+
+</body>
+</html>

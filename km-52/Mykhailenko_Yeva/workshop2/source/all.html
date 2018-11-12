@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>all</title>
+</head>
+<body>
+        <table border="1">
+            <caption> Users </caption>
+            <tr>
+                <th>Pass ID</th>
+                <th>User name</th>
+                <th>User role</th>
+            </tr>
+            <tr>
+                <td>{{user['pass_id']}}</td>
+                <td>{{user['user_name']}}</td>
+                <td>{{user['user_role']}}</td>
+            </tr>
+        </table>
+         <table border="1">
+            <caption> Homework </caption>
+            <tr>
+                <th>Discipline name</th>
+                <th>Homework date</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>{{homework['hw_discipline_name']}}</td>
+                <td>{{homework['hw_date']}}</td>
+                <td>{{homework['hw_description']}}</td>
+            </tr>
+        </table>
+</body>
+</html>
