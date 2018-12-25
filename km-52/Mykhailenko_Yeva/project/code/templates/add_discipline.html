@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+   a {
+    margin-left: 30pt;
+    font-family: 'Century Gothic', Century, serif;
+    font-size: 15pt;
+    color: black
+   }
+   h2 {
+    font-family: 'Century Gothic', Century, serif;
+   }
+    form {
+    font-family: 'Century Gothic', Century, serif;
+    margin-left: 30pt;
+    font-size: 15pt;
+   }
+  </style>
+</head>
+<body>
+<h2 style = "text-align: center;">Add discipline</h2>
+<form action="http://127.0.0.1:5000/add_discipline" method="POST">
+    {{ myform.hidden_tag() }}
+    <br>
+    {{ myform.dscpln_name.label }} {{ myform.dscpln_name }} {% for error in myform.dscpln_name.errors %}
+    {{ error }}{% endfor %}
+    {{ myform.submit }}
+</form>
+    <br>
+<br>
+    <a href="/disciplines"><---</a>
+
+</body>
+</html>

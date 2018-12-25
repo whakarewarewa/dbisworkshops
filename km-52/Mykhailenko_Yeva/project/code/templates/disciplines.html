@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Discilines List</title>
+    <style>
+    a {
+    margin-left: 30pt;
+    font-family: 'Century Gothic', Century, serif;
+    font-size: 15pt;
+    color: black
+   }
+   h2 {
+    font-family: 'Century Gothic', Century, serif;
+   }
+    form {
+    font-family: 'Century Gothic', Century, serif;
+    margin-left: 30pt;
+    font-size: 15pt;
+    }
+    table {
+    font-family: 'Century Gothic', Century, serif;
+    margin-left: 30pt;
+    font-size: 15pt;
+    border: 1px black;
+    border-collapse: collapse;
+   }
+  </style>
+</head>
+<body>
+    <h2 style = "text-align: center;">Find discipline</h2>
+    <form action="/disciplines" method="POST">
+    {{ form.hidden_tag() }}
+    <br>
+    {{ form.discipline.label }}
+    <br>
+    {{ form.discipline }} {% for error in form.discipline.errors %}
+    {{ error }}{% endfor %}
+    {{ form.submit }}
+    {% if cursor %}
+        {% for item in cursor %}
+            <a href="/disciplines/{{ item }}"> {{ item }} </a>
+        {% endfor %}
+    {% endif %}
+</form>
+    <br>
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Disciplines</th>
+        </tr>
+        {% for item in disc_table %}
+            <tr>
+                <td><a href="/disciplines/{{ item[0] }}">{{ item[0] }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% if session['role'] == 'TEACHER' %}
+    <br>
+    <br>
+    <a href="/add_discipline">Add Discipline</a>
+    <br>
+    <br>
+    <a href="/graph">Show graphic</a>
+    {% endif %}
+    <br>
+<br>
+    <a href="/"><---</a>
+</body>
+</html>

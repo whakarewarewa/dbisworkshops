@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <style>
+    a {
+    font-family: 'Century Gothic', Century, serif;
+    font-size: 15pt;
+    color: black
+   }
+   h2 {
+    font-family: 'Century Gothic', Century, serif;
+   }
+    form {
+    font-family: 'Century Gothic', Century, serif;
+    margin-left: 30pt;
+    font-size: 15pt;
+   }
+    table {
+    font-family: 'Century Gothic', Century, serif;
+    margin-left: 30pt;
+    font-size: 15pt;
+    border: 1px black;
+    border-collapse: collapse;
+   }
+  </style>
+</head>
+<body>
+    <h2>Personal Information</h2>
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Login</th>
+            <th>Password</th>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+        {% for item in table1 %}
+            <tr>
+                <form action="/profile" method="POST">
+                <td>{{ item[0] }}</td>
+                <td>{{ myform.hidden_tag()}} {{ myform.password.label }} {{ myform.password }}{% for error in myform.password.errors %}
+                    {{ error }}{% endfor %}{{ myform.submit }}</td>
+                <td>{{ item[2] }}</td>
+                <td>{{ item[3] }}</td>
+                </form>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Additional Info</h2>
+    <table border="1" cellpadding="10">
+        {% for item in table2 %}
+            <tr>
+                <td><a href="/disciplines/{{ item[0] }}">{{ item[0] }}</a></td>
+                <td>{{ item[1] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+<br>
+<br>
+<a href="/delete_profile">Delete profile</a>
+<br>
+<br>
+<a href="/"><---</a>
+</body>
+</html>
