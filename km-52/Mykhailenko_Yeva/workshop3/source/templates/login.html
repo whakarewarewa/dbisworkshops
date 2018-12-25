@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+   h2 {
+    font-family: 'Century Gothic', Century, serif;
+   }
+    form {
+    font-family: 'Century Gothic', Century, serif;
+    margin-left: 30pt;
+    font-size: 15pt;
+   }
+  </style>
+</head>
+<body>
+<h2 style = "text-align: center;">Login</h2>
+<form action="http://127.0.0.1:5000/login" method="POST">
+    {{ myform.hidden_tag() }}
+    <br>
+    {{ myform.login.label }} {{ myform.login }} {% for error in myform.login.errors %}
+    {{ error }}{% endfor %}
+    <br>
+    {{ myform.password.label }} {{ myform.password }}{% for error in myform.password.errors %}
+    {{ error }}{% endfor %}
+    <br>
+    <br>
+    {{ myform.submit }}
+</form>
+
+
+</body>
+</html>
