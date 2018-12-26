@@ -33,17 +33,35 @@
     <table border="1" cellpadding="10">
         <tr>
             <th>Name</th>
+            <th>Year</th>
             <th>Mark</th>
         </tr>
         {% for item in marks %}
             <tr>
                 <td>{{ item[0] }}</td>
                 <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>
                 {% if session['role'] == 'TEACHER' %}
-
+                 <form method="POST" action="/disciplines/{{ disc_name }}">
+                    <td style="border-color: white">
+                        <input type="hidden" name="remove_mark" value="{{item[3]}}" />
+                        <input type="submit" value="Remove">
+                    </td>
+                </form>
                 {% endif %}
             </tr>
         {% endfor %}
+            <tr>
+            {% if session['role'] == 'TEACHER' %}
+            <form method="POST" action="/disciplines/{{ disc_name }}">
+                {{ mark_add_form.hidden_tag() }}
+                <td>ID: {{ mark_add_form.student }}{% for error in mark_add_form.student.errors %}{{ error }}{% endfor %}</td>
+                <td>{{ mark_add_form.st_year }}{% for error in mark_add_form.st_year.errors %}{{ error }}{% endfor %}</td>
+                <td>{{ mark_add_form.mark }}{% for error in mark_add_form.mark.errors %}{{ error }}{% endfor %}</td>
+                <td style="border-color: white">{{ mark_add_form.submit }}</td>
+            </form>
+            {% endif %}
+        </tr>
     </table>
 
     <h2>Homework</h2>
@@ -58,8 +76,27 @@
                 <td>{{ item[0] }}</td>
                 <td>{{ item[1] }}</td>
                 <td>{{ item[2] }}</td>
+                {% if session['role'] == 'TEACHER' %}
+                <form method="POST" action="/disciplines/{{ disc_name }}">
+                    <td style="border-color: white">
+                        <input type="hidden" name="remove_hw" value="{{item[3]}}" />
+                        <input type="submit" value="Remove">
+                    </td>
+                </form>
+                {% endif %}
             </tr>
         {% endfor %}
+        <tr>
+            {% if session['role'] == 'TEACHER' %}
+            <form method="POST" action="/disciplines/{{ disc_name }}">
+                {{ hw_add_form.hidden_tag() }}
+                <td>{{ teacher_name }} </td>
+                <td>{{ hw_add_form.homework_date }}{% for error in hw_add_form.homework_date.errors %}{{ error }}{% endfor %}</td>
+                <td>{{ hw_add_form.description }}{% for error in hw_add_form.description.errors %}{{ error }}{% endfor %}</td>
+                <td style="border-color: white">{{ hw_add_form.submit }}</td>
+            </form>
+            {% endif %}
+        </tr>
     </table>
 <br>
 <br>
