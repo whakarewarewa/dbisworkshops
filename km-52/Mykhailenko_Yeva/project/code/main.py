@@ -127,12 +127,63 @@ def disciplines():
     return render_template('disciplines.html', form=form, disc_table=disc_table)
 
 
-@app.route('/disciplines/<name>')
+@app.route('/disciplines/<name>', methods=['GET', 'POST'])
 def named_discipline(name: str):
-    marks = list(get_discipline_marks(disc_name=name))
-    hw = list(get_discipline_hw(disc_name=name))
+    hw_add_form = HomeworkAddForm()
+    mark_add_form = MarkAddForm()
+    if session['role'] == 'TEACHER':
+        if request.method == "POST":
+            remove_hw_key = request.form.get('remove_hw')
+            if remove_hw_key is not None:
+                data = remove_hw_key.split('+')
+                teacher_id = tname_to_id(data[0])
+                date = data[1]
+                delete_homework(discipline_name=name, teacher_id=teacher_id, hw_date=date)
+            remove_mark_key = request.form.get('remove_mark')
+            if remove_mark_key is not None:
+                data = remove_mark_key.split('+')
+                student_id = sname_to_id(data[0])
+                year = data[1]
+                delete_mark(discipline_name=name, student_id=student_id, st_year=year)
 
-    return render_template('info_table.html', marks=marks, hw=hw, disc_name=name)
+        teacher_name = login_to_tname(name=request.cookies.get('cookie_name'))
+        if hw_add_form.validate_on_submit():
+            teacher = tname_to_id(teacher_name)
+            description = hw_add_form.description.data
+            hw_date = hw_add_form.homework_date.data
+            find_h = find_homework(disc_name=name, hw_date=hw_date, tid=teacher)
+            if find_h == 0:
+                add_homework(discipline_name=name,
+                             hw_date=hw_date,
+                             hw_description=description,
+                             teacher_id=teacher)
+            else:
+                return 'Record already exists'
+
+        if mark_add_form.validate_on_submit():
+            student = mark_add_form.student.data
+            mark = mark_add_form.mark.data
+            year = mark_add_form.st_year.data
+            find_s = find_student(sid=student)
+            if find_s:
+                find_m = find_mark(sid=student, disc_name=name, st_year=year)
+                if find_m:
+                    return 'Record already exists'
+                else:
+                    add_mark(discipline_name=name, student_id=student, st_year=year, mark=mark)
+            else:
+                return 'This student does not exist'
+    else:
+        teacher_name = ''
+
+    marks = list(get_discipline_marks(disc_name=name))
+    marks = [item + (item[0] + '+' + str(item[1]),) for item in marks]
+
+    hw = list(get_discipline_hw(disc_name=name))
+    hw = [item + (item[0]+'+'+item[1],) for item in hw]
+
+    return render_template('info_table.html', marks=marks, hw=hw, disc_name=name, hw_add_form=hw_add_form,
+                           mark_add_form=mark_add_form, teacher_name=teacher_name)
 
 
 @app.route('/profile', methods=['GET','POST'])

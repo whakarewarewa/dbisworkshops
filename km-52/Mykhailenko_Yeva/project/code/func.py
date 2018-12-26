@@ -65,8 +65,24 @@ def register_student(login, id):
     return cursor.callfunc('user_package.register_student', cx_Oracle.NUMBER, [login, id])
 
 
+def find_student(sid):
+    return cursor.callfunc('student_package.find_student', cx_Oracle.NUMBER, [sid])
+
+
 def register_teacher(login, id):
     return cursor.callfunc('user_package.register_teacher', cx_Oracle.NUMBER, [login, id])
+
+
+def find_teacher(tid):
+    return cursor.callfunc('teacher_package.find_teacher', cx_Oracle.NUMBER, [tid])
+
+
+def find_homework(disc_name, tid, hw_date):
+    return cursor.callfunc('homework_package.find_homework', cx_Oracle.NUMBER, [disc_name, tid, hw_date])
+
+
+def find_mark(sid, disc_name, st_year):
+    return cursor.callfunc('mark_package.find_mark', cx_Oracle.NUMBER, [sid, disc_name, st_year])
 
 
 def add_teacher(login, password, id, name):
@@ -91,3 +107,33 @@ def upd_st_password(login, password):
 
 def upd_t_password(login, password):
     return cursor.callproc('teacher_package.update_teacher_password', [login, password])
+
+
+def tname_to_id(name):
+    return cursor.callfunc('homework_package.tname_to_id', cx_Oracle.STRING, [name])
+
+
+def login_to_tname(name):
+    return cursor.callfunc('teacher_package.login_to_tname', cx_Oracle.STRING, [name])
+
+
+def sname_to_id(name):
+    return cursor.callfunc('mark_package.sname_to_id', cx_Oracle.STRING, [name])
+
+
+def add_homework(discipline_name, teacher_id, hw_date, hw_description):
+    return cursor.callproc('homework_package.add_homework', [discipline_name, teacher_id, hw_date, hw_description])
+
+
+def delete_homework(discipline_name, teacher_id, hw_date):
+    return cursor.callproc('homework_package.delete_homework', [discipline_name, teacher_id, hw_date])
+
+
+def delete_mark(student_id, discipline_name, st_year):
+    return cursor.callproc('mark_package.delete_mark', [student_id, discipline_name, st_year])
+
+
+def add_mark(student_id, discipline_name, st_year, mark):
+    return cursor.callproc('mark_package.add_mark', [student_id, discipline_name, st_year, mark])
+
+
