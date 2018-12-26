@@ -18,7 +18,8 @@ class RegisterSForm(FlaskForm):
                                                        (1, 30, "Password should be from 1 to 30 symbols")])
     name = StringField('Name: ', validators=[validators.DataRequired('Required'),
                                              validators.Length(1, 30, "Name should be from 1 to 30 symbols"),
-                                             validators.Regexp('^[a-zA-Z ]+$', message='Only letters please')])
+                                             validators.Regexp('^[A-Z][a-z]+[\s]([A-Z][a-z]+)*$',
+                                                               message='Invalid name')])
     id = StringField('Card ID: ', validators=[validators.DataRequired('Required'),
                                               validators.Length(6, 6, "6 symbols allowed"),
                                               validators.Regexp('^[0-9]', message='Only numeric')])
@@ -37,7 +38,8 @@ class RegisterTForm(FlaskForm):
                                                        (1, 30, "Password should be from 1 to 30 symbols")])
     name = StringField('Name: ', validators=[validators.DataRequired('Required'),
                                              validators.Length(1, 30, "Name should be from 1 to 30 symbols"),
-                                             validators.Regexp('^[a-zA-Z ]+$', message='Only letters please')])
+                                             validators.Regexp('^[A-Z][a-z]+[\s]([A-Z][a-z]+)*$',
+                                                               message='Invalid name')])
     id = StringField('Contract ID: ', validators=[validators.DataRequired('Required'),
                                                   validators.Length(6, 6, "6 symbols allowed"),
                                                   validators.Regexp('^[0-9]', message='Only numeric')])
@@ -65,6 +67,28 @@ class DeleteUserForm(FlaskForm):
 class AddDisciplineForm(FlaskForm):
     dscpln_name = StringField('Discipline: ', validators=[validators.DataRequired('Required'),
                                                           validators.Length(1, 30, "Should be between 1 and 30"),
-                                                          validators.Regexp('^[A-Z ]+$', message='Only big letters please')])
+                                                          validators.Regexp('^[A-Z ]+$',
+                                                                            message='Only big letters please')])
 
     submit = SubmitField('Add')
+
+
+class HomeworkAddForm(FlaskForm):
+    homework_date = StringField(validators=[validators.DataRequired('Required'),
+                                            validators.Length(10, 10, "Should 10 symbols"),
+                                            validators.Regexp('([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))',
+                                            message='Format YYYY-MM-DD please!')])
+    description = StringField(validators=[validators.DataRequired('Required'), validators.Length(1, 300,
+                              message='Over than 300 characters')])
+    submit = SubmitField("Add")
+
+
+class MarkAddForm(FlaskForm):
+    student = StringField(validators=[validators.DataRequired('Required'),
+                                      validators.Length(6, 6, "6 symbols allowed"),
+                                      validators.Regexp('^[0-9]', message='Only numeric')])
+    mark = IntegerField(validators=[validators.DataRequired('Required'), validators.NumberRange(0, 100,
+                        message='Between 1 and 100')])
+    st_year = IntegerField(validators=[validators.DataRequired('Require a number'), validators.NumberRange(1999, 2019,
+                           message='Between 1999 and 2019')])
+    submit = SubmitField("Add")
